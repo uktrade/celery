@@ -158,11 +158,7 @@ class test_EventletDrainer(DrainerTests):
 
     def result_consumer_drain_events(self, timeout=None):
         import eventlet
-
-        # `drain_events` of asynchronous backends with pubsub have to sleep
-        # while waiting events for not more then `interval` timeout,
-        # but events may coming sooner
-        eventlet.sleep(timeout/10)
+        eventlet.sleep(0)
 
     def schedule_thread(self, thread):
         import eventlet
@@ -208,11 +204,7 @@ class test_GeventDrainer(DrainerTests):
 
     def result_consumer_drain_events(self, timeout=None):
         import gevent
-
-        # `drain_events` of asynchronous backends with pubsub have to sleep
-        # while waiting events for not more then `interval` timeout,
-        # but events may coming sooner
-        gevent.sleep(timeout/10)
+        gevent.sleep(0)
 
     def schedule_thread(self, thread):
         import gevent

@@ -276,31 +276,7 @@ class test_default_logger:
                     p.write('foo')
                     assert stderr.getvalue()
 
-    def test_logging_proxy_bytes(self, restore_logging):
-        logger = self.setup_logger(loglevel=logging.ERROR, logfile=None,
-                                   root=False)
-
-        with conftest.wrap_logger(logger) as sio:
-            p = LoggingProxy(logger, loglevel=logging.ERROR)
-            p.close()
-            p.write(b'foo')
-            assert 'foo' not in str(sio.getvalue())
-            p.closed = False
-            p.write(b'\n')
-            assert str(sio.getvalue()) == ''
-            write_res = p.write(b'foo ')
-            assert str(sio.getvalue()) == 'foo \n'
-            assert write_res == 4
-            p.flush()
-            p.close()
-            assert not p.isatty()
-
-            with conftest.stdouts() as (stdout, stderr):
-                with in_sighandler():
-                    p.write(b'foo')
-                    assert stderr.getvalue()
-
-    def test_logging_proxy_recurse_protection(self, restore_logging):
+    def test_logging_proxy_recurse_protection(self):
         logger = self.setup_logger(loglevel=logging.ERROR, logfile=None,
                                    root=False)
         p = LoggingProxy(logger, loglevel=logging.ERROR)
